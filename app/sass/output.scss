@@ -1,0 +1,15 @@
+$dark : red; 
+$medium : blue ; 
+$light : red;
+.true {
+	color : $dark;
+	display : flex;
+}
+
+.fun {
+	color : $medium;
+}
+
+.sleep {
+	color : $light;
+}

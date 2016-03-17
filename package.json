@@ -20,7 +20,9 @@
     "autoprefixer": "^6.3.3",
     "express": "^4.13.4",
     "expressively": "^0.6.0",
+    "mkdirp": "^0.5.1",
     "node-sass": "^3.4.2",
+    "node-sass-middleware": "^0.9.7",
     "postcss": "^5.0.19",
     "sass-thematic": "^2.0.4"
   }
