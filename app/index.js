@@ -52,6 +52,8 @@ function expressDynamicThemer(options) {
 
                         res.end(postResult.css);
                         mkdirp.sync(path.dirname(filename));
+
+                        // TODO: figure out where to write this if incoming url has %23, etc in it
                         fs.writeFileSync(filename, postResult.css);
                     });
                 }
