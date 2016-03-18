@@ -78,7 +78,8 @@ function expressDynamicThemer(options) {
             if (name) {
                 string += `$${ part } : `;
             } else {
-                string += `${ part };\n`;
+                console.log('decoded', decodeURIComponent(part));
+                string += `${ decodeURIComponent(part) };\n`;
             }
             name = !name;
         });
