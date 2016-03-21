@@ -6,6 +6,9 @@
     "scripts": {
         "test": "./node_modules/mocha/bin/mocha"
     },
+    "engines" : {
+        "node" : ">=5.0.0"
+    },
     "repository": {
         "type": "git",
         "url": "git+https://github.com/mjmostachetti/theme_api.git"
