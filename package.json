@@ -1,29 +1,29 @@
 {
-  "name": "theme_api",
-  "version": "1.0.0",
-  "description": "Pass colors in get params and return compiled sass.",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/mjmostachetti/theme_api.git"
-  },
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/mjmostachetti/theme_api/issues"
-  },
-  "homepage": "https://github.com/mjmostachetti/theme_api#readme",
-  "dependencies": {
-    "autoprefixer": "^6.3.3",
-    "express": "^4.13.4",
-    "expressively": "^0.6.0",
-    "mkdirp": "^0.5.1",
-    "node-sass": "^3.4.2",
-    "node-sass-middleware": "^0.9.7",
-    "postcss": "^5.0.19",
-    "sass-thematic": "^2.0.4"
-  }
+    "name": "sass-theme-api-middleware",
+    "version": "0.0.0",
+    "description": "Pass colors in get params and return compiled sass.",
+    "main": "index.js",
+    "scripts": {
+        "test": "./node_modules/mocha/bin/mocha"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/mjmostachetti/theme_api.git"
+    },
+    "author": "",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/mjmostachetti/theme_api/issues"
+    },
+    "homepage": "https://github.com/mjmostachetti/theme_api#readme",
+    "dependencies": {
+        "autoprefixer": "^6.3.3",
+        "mkdirp": "^0.5.1",
+        "node-sass": "^3.4.2",
+        "postcss": "^5.0.19"
+    },
+    "devDependencies": {
+        "express": "^4.13.4",
+        "mocha": "^2.4.5"
+    }
 }
