@@ -1,7 +1,7 @@
 {
     "name": "sass-theme-api-middleware",
     "version": "0.0.0",
-    "description": "Pass colors in get params and return compiled sass.",
+    "description": "Pass colors in url to scss, and then return and cache compiled css.",
     "main": "index.js",
     "scripts": {
         "test": "./node_modules/mocha/bin/mocha"
