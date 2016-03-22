@@ -23,16 +23,18 @@ function expressDynamicThemer(options) {
         var pathName = req.path,
             sassRoot = options.sassRoot || function() {
                 throw new Error('You must define options.sassRoot to use the sass-theme-api-middleware')
-            };
+            },
+            includePaths = options.includePaths || [],
+            basePath = options.basePath || '';
 
         if (path.extname(pathName) === '.css') {
-            var sassVars = _getScssVariables(pathName),
+            var sassVars = _getScssVariables(pathName, basePath),
                 filename = path.basename(pathName, '.css'),
                 stylesheet = `${ sassVars } @import '${ sassRoot }/${ filename }'`;
 
             sass.render({
                 data : stylesheet,
-                includePaths : options.includePaths
+                includePaths : includePaths
             }, function(error, result) {
                 if(!error){
                     postcss([ autoprefixer ]).process(result.css).then(function (postResult) {
@@ -59,25 +61,25 @@ function expressDynamicThemer(options) {
             next();
         }
     };
+}
 
-    function _getScssVariables(pathString) {
-        var string = '',
-            name = true,
-            pathArray;
+function _getScssVariables(pathString, basePath) {
+    var string = '',
+        name = true,
+        pathArray;
 
-        pathString = path.dirname(pathString);
-        pathString = pathString.replace(options.basePath, '').replace(/^\//,'');
-        pathArray = pathString.split('/');
+    pathString = path.dirname(pathString);
+    pathString = pathString.replace(basePath, '').replace(/^\//,'');
+    pathArray = pathString.split('/');
 
-        pathArray.forEach(function(part) {
-            if (name) {
-                string += `$${ part } : `;
-            } else {
-                string += `${ decodeURIComponent(part) };\n`;
-            }
-            name = !name;
-        });
+    pathArray.forEach(function(part) {
+        if (name) {
+            string += `$${ part } : `;
+        } else {
+            string += `${ decodeURIComponent(part) };\n`;
+        }
+        name = !name;
+    });
 
-        return string;
-    }
+    return string;
 }
