@@ -30,8 +30,6 @@ function expressDynamicThemer(options) {
                 filename = path.basename(pathName, '.css'),
                 stylesheet = `${ sassVars } @import '${ sassRoot }/${ filename }'`;
 
-            console.log(`stylesheet: ${stylesheet}`);
-
             sass.render({
                 data : stylesheet,
                 includePaths : [ 'sass/']
@@ -39,6 +37,7 @@ function expressDynamicThemer(options) {
                 if(!error){
                     postcss([ autoprefixer ]).process(result.css).then(function (postResult) {
                         var filename =  path.join('public',req.path.slice(1));
+
                         postResult.warnings().forEach(function (warn) {
                             console.warn(warn.toString());
                         });
@@ -49,9 +48,9 @@ function expressDynamicThemer(options) {
                         });
 
                         res.end(postResult.css);
-                        mkdirp.sync(path.dirname(filename));
 
-                        // TODO: figure out where to write this if incoming url has %23, etc in it
+                        // cache file
+                        mkdirp.sync(path.dirname(filename));
                         fs.writeFileSync(filename, postResult.css);
                     });
                 }
