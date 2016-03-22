@@ -20,7 +20,7 @@ module.exports = expressDynamicThemer;
 function expressDynamicThemer(options) {
     
     return function expressDynamicThemerMiddleware(req, res, next) {
-        var pathName= req.path,
+        var pathName = req.path,
             sassRoot = options.sassRoot || function() {
                 throw new Error('You must define options.sassRoot to use the sass-theme-api-middleware')
             };
@@ -32,7 +32,7 @@ function expressDynamicThemer(options) {
 
             sass.render({
                 data : stylesheet,
-                includePaths : [ 'sass/']
+                includePaths : [ 'sass/' ]
             }, function(error, result) {
                 if(!error){
                     postcss([ autoprefixer ]).process(result.css).then(function (postResult) {
@@ -59,26 +59,25 @@ function expressDynamicThemer(options) {
             next();
         }
     };
-}
 
-function _getScssVariables(pathString) {
-    var string = '',
-        name = true,
-        pathArray;
+    function _getScssVariables(pathString) {
+        var string = '',
+            name = true,
+            pathArray;
 
-    pathString = path.dirname(pathString);
-    pathString = pathString.replace(options.basePath, '').replace(/^\//,'');
-    pathArray = pathString.split('/');
+        pathString = path.dirname(pathString);
+        pathString = pathString.replace(options.basePath, '').replace(/^\//,'');
+        pathArray = pathString.split('/');
 
-    pathArray.forEach(function(part) {
-        if (name) {
-            string += `$${ part } : `;
-        } else {
-            console.log('decoded', decodeURIComponent(part));
-            string += `${ decodeURIComponent(part) };\n`;
-        }
-        name = !name;
-    });
+        pathArray.forEach(function(part) {
+            if (name) {
+                string += `$${ part } : `;
+            } else {
+                string += `${ decodeURIComponent(part) };\n`;
+            }
+            name = !name;
+        });
 
-    return string;
+        return string;
+    }
 }
