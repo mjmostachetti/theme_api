@@ -1,6 +1,6 @@
 {
     "name": "sass-theme-api-middleware",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "description": "Pass colors in url to scss, and then return and cache compiled css.",
     "main": "index.js",
     "scripts": {

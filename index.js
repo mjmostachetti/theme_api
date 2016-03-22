@@ -32,7 +32,7 @@ function expressDynamicThemer(options) {
 
             sass.render({
                 data : stylesheet,
-                includePaths : [ 'sass/' ]
+                includePaths : options.includePaths
             }, function(error, result) {
                 if(!error){
                     postcss([ autoprefixer ]).process(result.css).then(function (postResult) {
