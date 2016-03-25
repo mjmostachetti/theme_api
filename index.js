@@ -67,21 +67,21 @@ function expressDynamicThemer(options) {
 
         function _getScssVariables(pathString) {
             var string = '',
-                name = true,
-                pathArray;
+                name = true;
 
             pathString = path.dirname(pathString);
             pathString = pathString.replace(urlBase, '').replace(/^\//,'');
-            pathArray = pathString.split('/');
 
-            pathArray.forEach(function(part) {
-                if (name) {
-                    string += `$${ part } : `;
-                } else {
-                    string += `${ decodeURIComponent(part) };\n`;
-                }
-                name = !name;
-            });
+            if (pathString) {
+                pathString.split('/').forEach(function(part) {
+                    if (name) {
+                        string += `$${ part } : `;
+                    } else {
+                        string += `${ decodeURIComponent(part) };\n`;
+                    }
+                    name = !name;
+                });
+            }
 
             return string;
         }
