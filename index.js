@@ -13,17 +13,16 @@ module.exports = expressDynamicThemer;
 /**
  * Express middleware to dynamically create stylesheets based on variables in the url.
  * @param options
- *      *  sassRoot - the directory the file referenced in the url will be searched for
- *      *  [any sass options to pass through] - options passed through to sass - (data is created dynamically by the middleware)
+ *      *  publicDir - the directory to write the compiled css to
+ *      *  includePaths - array of dirs to pass to node-sass
+ *      *  urlBase - base of path to remove from url that is not meant to be a sass variable name/value pair
+ *      *  importsCallback - function to pass themer that adds the @import statements as desired
  * @returns {expressDynamicThemerMiddleware}
  */
 function expressDynamicThemer(options) {
     
     return function expressDynamicThemerMiddleware(req, res, next) {
         var pathName = req.path,
-            sassRoot = options.sassRoot || function() {
-                throw new Error('You must define options.sassRoot to use the sass-theme-api-middleware')
-            },
             publicDir = options.publicDir || '',
             includePaths = options.includePaths || [],
             urlBase = options.urlBase || '';
@@ -31,10 +30,10 @@ function expressDynamicThemer(options) {
         if (path.extname(pathName) === '.css') {
             var sassVars = _getScssVariables(pathName),
                 filename = path.basename(pathName, '.css'),
-                stylesheet = `${ sassVars } @import '${ sassRoot }/${ filename }'`;
+                imports = options.importsCallback ? options.importsCallback(filename, req.query) : '';
 
             sass.render({
-                data : stylesheet,
+                data : sassVars + imports,
                 includePaths : includePaths
             }, function(error, result) {
                 if (error) {
