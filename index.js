@@ -28,12 +28,12 @@ function expressDynamicThemer(options) {
             urlBase = options.urlBase || '';
 
         if (path.extname(pathName) === '.css') {
-            var sassVars = _getScssVariables(pathName),
+            var defaultPalette = options.defaultPalette ? options.defaultPalette(req.query) : '',
                 filename = path.basename(pathName, '.css'),
-                imports = options.importsCallback ? options.importsCallback(filename, req.query) : '';
+                imports = options.imports ? options.imports(filename) : '';
 
             sass.render({
-                data : sassVars + imports,
+                data : defaultPalette + _getScssVariables(pathName) + imports,
                 includePaths : includePaths
             }, function(error, result) {
                 if (error) {
