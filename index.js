@@ -3,7 +3,6 @@
 var sass = require('node-sass'),
     fs = require('fs'),
     mkdirp = require('mkdirp'),
-    express = require('express'),
     path = require('path'),
     autoprefixer = require('autoprefixer'),
     postcss = require('postcss');
@@ -16,7 +15,8 @@ module.exports = expressDynamicThemer;
  *      *  publicDir - the directory to write the compiled css to
  *      *  includePaths - array of dirs to pass to node-sass
  *      *  urlBase - base of path to remove from url that is not meant to be a sass variable name/value pair
- *      *  importsCallback - function to pass themer that adds the @import statements as desired
+ *      *  beforeUrlVars - function to pass themer to add sass before the url vars
+ *      *  afterUrlVars - function to pass themer to add sass after the url vars
  * @returns {expressDynamicThemerMiddleware}
  */
 function expressDynamicThemer(options) {
@@ -28,16 +28,16 @@ function expressDynamicThemer(options) {
             urlBase = options.urlBase || '';
 
         if (path.extname(pathName) === '.css') {
-            var defaultPalette = options.defaultPalette ? options.defaultPalette(req.query) : '',
+            var beforeUrlVars = options.beforeUrlVars ? options.beforeUrlVars(req.query) : '',
                 filename = path.basename(pathName, '.css'),
-                imports = options.imports ? options.imports(filename) : '';
+                afterUrlVars = options.afterUrlVars ? options.afterUrlVars(filename) : '';
 
             sass.render({
-                data : defaultPalette + _getScssVariables(pathName) + imports,
+                data : beforeUrlVars + _getScssVariables(pathName) + afterUrlVars,
                 includePaths : includePaths
             }, function(error, result) {
                 if (error) {
-                    console.log('sass render error: ', error);
+                    res.end('sass compile error: ' + error);
                 } else {
                     postcss([ autoprefixer ]).process(result.css)
                         .then(function(postResult) {
