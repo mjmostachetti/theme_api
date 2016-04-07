@@ -25,7 +25,8 @@ function expressDynamicThemer(options) {
         var pathName = req.path,
             publicDir = options.publicDir || '',
             includePaths = options.includePaths || [],
-            urlBase = options.urlBase || '';
+            urlBase = options.urlBase || '',
+            outputStyle = options.outputStyle || 'expanded';
 
         if (path.extname(pathName) === '.css') {
             var beforeUrlVars = options.beforeUrlVars ? options.beforeUrlVars(req.query) : '',
@@ -34,7 +35,8 @@ function expressDynamicThemer(options) {
 
             sass.render({
                 data : beforeUrlVars + _getScssVariables(pathName) + afterUrlVars,
-                includePaths : includePaths
+                includePaths : includePaths,
+                outputStyle : outputStyle
             }, function(error, result) {
                 if (error) {
                     res.end('sass compile error: ' + error);
